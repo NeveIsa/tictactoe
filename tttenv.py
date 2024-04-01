@@ -3,21 +3,22 @@ import numpy as np
 
 class Env:
     def __init__(self, preenv=None):
-        if type(preenv)!=type(None):
+        if type(preenv) != type(None):
             self.board = preenv.board.copy()
             self.nextplayer = preenv.nextplayer
         else:
-            self.board = np.zeros((3,3))
+            self.board = np.zeros((3, 3))
             self.nextplayer = None
 
     def put(self, x, y, symbol="x"):
-        if self.nextplayer: assert self.nextplayer == symbol
+        if self.nextplayer:
+            assert self.nextplayer == symbol
 
         val = -1 if symbol == "x" else 1
 
         if self.board[x, y] == 0:
             self.board[x, y] = val
-            self.nextplayer = 'o' if symbol=='x' else 'x'
+            self.nextplayer = "o" if symbol == "x" else "x"
             return True
         else:
             return False
@@ -25,12 +26,12 @@ class Env:
     def get(self):
         moves = list(zip(*np.where(self.board == 0)))
         boards = []
-        for x,y in moves:
-            _env = Env(self.board)
-            _env.put(x,y,symbol=self.nextplayer)
-            boards.push(_env)
+        for x, y in moves:
+            _env = Env(self)
+            _env.put(x, y, symbol=self.nextplayer)
+            boards.append(_env)
         return boards
-            
+
     def gameover(self):
         winner = 0
         m, n = self.board.shape
@@ -61,7 +62,11 @@ class Env:
             winner = 1
 
         winner = ["x", "", "o"][winner + 1]
-        score = 100 - (self.board == 0).sum()  # 100 - how empty the board is
+        if winner != "":
+            score = 100 - (self.board == 0).sum()  # 100 - how empty the board is
+        else:
+            score = 0
+
         return winner, score
 
     def __str__(self):
