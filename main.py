@@ -10,10 +10,15 @@ class Player:
         for i,env in enumerate(envs):
             winner,score = env.gameover()
             if winner:
-                scores[i] = score
-            else 
+                pass
+            else:
+                score = Player(env).step()
                 
-    
+            scores[i] = score
+        if self.env.nextplayer=='x':
+            return scores.max()
+        elif self.env.nextplayer=='o':
+            return scores.min()
 
 
 ttt = Env()
