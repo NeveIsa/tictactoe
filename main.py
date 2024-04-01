@@ -67,6 +67,7 @@ while True:
         break
 
     ### COMPUTER PLAY ###
+    print("ai is deliberating...")
     score, move = player.step()
     # print(score,move)
     player.play(*move, 'o')
