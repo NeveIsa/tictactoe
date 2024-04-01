@@ -34,6 +34,8 @@ class Env:
 
     def gameover(self):
         winner = 0
+        boardfull = False
+        
         m, n = self.board.shape
         assert m == n
         boardplus, boardminus = self.board.copy() + 1, self.board.copy() - 1
@@ -62,12 +64,17 @@ class Env:
             winner = 1
 
         winner = ["x", "", "o"][winner + 1]
+        howempty = (self.board == 0).sum()  # 100 - how empty the board is
+
         if winner != "":
-            score = 100 - (self.board == 0).sum()  # 100 - how empty the board is
+            score = 100 - howempty 
         else:
             score = 0
 
-        return winner, score
+        if howempty==0: # i.e, if board is full
+            boardfull = True
+
+        return winner, score, full
 
     def __str__(self):
         m, n = self.board.shape
