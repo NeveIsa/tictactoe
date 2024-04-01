@@ -30,7 +30,7 @@ class Env:
             _env = Env(self)
             _env.put(x, y, symbol=self.nextplayer)
             boards.append(_env)
-        return boards
+        return boards,moves
 
     def gameover(self):
         winner = 0
