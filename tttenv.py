@@ -63,18 +63,19 @@ class Env:
         if np.any(np.fliplr(boardminus).diagonal()) == False:
             winner = 1
 
-        winner = ["x", "", "o"][winner + 1]
         howempty = (self.board == 0).sum()  # 100 - how empty the board is
 
         if winner != "":
-            score = 100 - howempty 
+            score = 100*(-winner) - howempty 
         else:
             score = 0
 
         if howempty==0: # i.e, if board is full
             boardfull = True
 
-        return winner, score, full
+        # score = score*winner*-1
+        winner = ["x", "", "o"][winner + 1]
+        return winner, score, boardfull
 
     def __str__(self):
         m, n = self.board.shape
@@ -99,6 +100,10 @@ if __name__ == "__main__":
     env = Env()
     assert env.put(2, 1, "x")
     assert env.put(1, 1, "o")
+    assert env.put(2, 2, "x")    
+    assert env.put(1, 0, "o")
+    assert env.put(0, 2, "x")
+    assert env.put(1, 2, "o")
     print(env)
-
+    print(env.gameover())
     print(env.get())
